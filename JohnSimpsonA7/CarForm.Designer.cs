@@ -61,7 +61,7 @@
             SortMake.TabIndex = 2;
             SortMake.Text = "Sort By Make";
             SortMake.UseVisualStyleBackColor = true;
-            SortMake.Click += this.SortMake_Click;
+            SortMake.Click += SortMake_Click;
             // 
             // SortMakeAndPrice
             // 
@@ -71,6 +71,7 @@
             SortMakeAndPrice.TabIndex = 3;
             SortMakeAndPrice.Text = "Sort By Make and Price";
             SortMakeAndPrice.UseVisualStyleBackColor = true;
+            SortMakeAndPrice.Click += this.SortMakeAndPrice_Click;
             // 
             // CarForm
             // 
