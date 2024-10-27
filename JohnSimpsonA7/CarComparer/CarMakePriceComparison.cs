@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using JohnSimpsonA7.CarNameSpace;
+﻿using JohnSimpsonA7.CarNameSpace;
 
 namespace JohnSimpsonA7.CarComparer
 {
@@ -16,7 +11,7 @@ namespace JohnSimpsonA7.CarComparer
                 if ((x != null) && (y != null))
                 {
                     {
-                        var makeCompare = string.Compare(x.Make, y.Make, StringComparison.OrdinalIgnoreCase);
+                        var makeCompare = string.Compare(x.Make, y.Make, StringComparison.CurrentCultureIgnoreCase);
                         if (makeCompare == 0)
                         {
                             return x.Price.CompareTo(y.Price);

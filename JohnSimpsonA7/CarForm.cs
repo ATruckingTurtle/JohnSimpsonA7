@@ -6,25 +6,32 @@ namespace JohnSimpsonA7
 {
     public partial class CarForm : Form
     {
-        public List<Car>? car = new List<Car>();
+        public List<Car>? Car = [];
         public CarForm()
         {
             InitializeComponent();
-            displayCars();
+            DisplayCars();
         }
-
+        /// <summary>
+        /// should only enable buttons if data is present 
+        /// </summary>
+        private void SetButton()
+        {
+            if (Car != null) SortMake.Enabled = (Car.Count > 0);
+            if (Car != null) SortMakeAndPrice.Enabled = (Car.Count > 0);
+        }
 
         /// <summary>
         /// Loads the data.  takes the data and sends it to next method display car
         /// </summary>
         /// <param name="fileName">Name of the file.</param>
-        public void loadData(string fileName)
+        public void LoadData(string fileName)
         {
             try
             {
                 var data = File.ReadAllText(fileName);
-                car = JsonSerializer.Deserialize<List<Car>>(data);
-                displayCars();
+                Car = JsonSerializer.Deserialize<List<Car>>(data);
+                DisplayCars();
             }
             catch (Exception ea)
             {
@@ -35,16 +42,17 @@ namespace JohnSimpsonA7
         /// <summary>
         /// Displays the cars or displays "no data loaded"
         /// </summary>
-        private void displayCars()
+        private void DisplayCars()
         {
             CarDisplay.Items.Clear();
-            if (car.Count == 0)
+            if (Car is { Count: 0 })
             {
                 CarDisplay.Items.Add("No Data Loaded");
             }
             else
             {
-                foreach (var car in car)
+                if (Car == null) return;
+                foreach (var car in Car)
                 {
                     CarDisplay.Items.Add(
                         $"Make: {car.Make}, Model: {car.Model}, Price: {car.Price}, Mileage: {car.Mileage}, Color: {car.Color}");
@@ -63,7 +71,7 @@ namespace JohnSimpsonA7
             var folder = new OpenFileDialog();
             var result = folder.ShowDialog();
             if (result != DialogResult.OK) return;
-            loadData(folder.FileName);
+            LoadData(folder.FileName);
         }
 
         /// <summary>
@@ -73,22 +81,41 @@ namespace JohnSimpsonA7
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void SortMake_Click(object? sender, EventArgs e)
         {
-            try
-            {
-                if (car != null) car.Sort();
-                displayCars();
-            }
+            if (Car is { Count: > 0 }) {
 
-            catch (Exception ea)
+                try
+                {
+                    if (Car != null) Car.Sort();
+                    DisplayCars();
+                }
+
+                catch (Exception ea)
+                {
+                    MessageBox.Show($@"Error comparing: {ea.Message}");
+                }
+            }
+            else
             {
-                MessageBox.Show($@"Error comparing: {ea.Message}");
+                MessageBox.Show(@"Please add data before clicking this.", @"Low Data Error");
             }
         }
 
+        /// <summary>
+        /// Button to sort the car make and price.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SortMakeAndPrice_Click(object sender, EventArgs e)
         {
-            car.Sort(new CarMakePriceComparison());
-            displayCars();
+            if (Car is { Count: > 0 })
+            {
+                Car?.Sort(new CarMakePriceComparison());
+                DisplayCars();
+            }
+            else
+            {
+                MessageBox.Show(@"Please add data before clicking this.", @"Low Data Error");
+            }
         }
 
     }
