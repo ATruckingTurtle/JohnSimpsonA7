@@ -9,7 +9,9 @@ namespace JohnSimpsonA7
         public CarForm()
         {
             InitializeComponent();
+            displayCars();
         }
+
 
         /// <summary>
         /// Loads the data.  takes the data and sends it to next method display car
@@ -56,6 +58,20 @@ namespace JohnSimpsonA7
             var result = folder.ShowDialog();
             if (result != DialogResult.OK) return;
             loadData(folder.FileName);
+        }
+
+        private void SortMake_Click(object? sender, EventArgs e)
+        {
+            try
+            {
+                if (Cars != null) Cars.Sort();
+                displayCars();
+            }
+
+            catch (Exception ea)
+            {
+                MessageBox.Show($"Error was this: {ea.Message}");
+            }
         }
     }
 }

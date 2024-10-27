@@ -51,7 +51,7 @@
             FileButton.TabIndex = 1;
             FileButton.Text = "Open New File?";
             FileButton.UseVisualStyleBackColor = true;
-            FileButton.Click += this.FileButton_Click;
+            FileButton.Click += FileButton_Click;
             // 
             // SortMake
             // 
@@ -61,6 +61,7 @@
             SortMake.TabIndex = 2;
             SortMake.Text = "Sort By Make";
             SortMake.UseVisualStyleBackColor = true;
+            SortMake.Click += this.SortMake_Click;
             // 
             // SortMakeAndPrice
             // 
